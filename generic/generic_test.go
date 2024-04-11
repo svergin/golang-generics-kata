@@ -22,3 +22,32 @@ func TestFilter(t *testing.T) {
 	assert.Contains(t, s2, "E")
 	assert.Contains(t, s2, "F")
 }
+
+func TestMap(t *testing.T) {
+	type birne struct {
+		farbe   string
+		gewicht int
+	}
+
+	type gluehbirne struct {
+		leistung int
+		dimmbar  bool
+	}
+
+	b := []birne{{farbe: "gelb", gewicht: 150}, {farbe: "rot", gewicht: 200}}
+
+	g := Map(b, func(b birne) gluehbirne {
+		switch b.farbe {
+		case "gelb":
+			return gluehbirne{leistung: 100, dimmbar: true}
+		case "rot":
+			return gluehbirne{leistung: 40, dimmbar: false}
+		default:
+			return gluehbirne{}
+		}
+	})
+
+	assert.Equal(t, 2, len(g))
+	assert.Contains(t, g, gluehbirne{leistung: 100, dimmbar: true})
+	assert.Contains(t, g, gluehbirne{leistung: 40, dimmbar: false})
+}

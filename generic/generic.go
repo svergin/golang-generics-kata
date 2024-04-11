@@ -11,3 +11,11 @@ func Filter[T constraints.Ordered](elements []T, f func(T) bool) []T {
 	}
 	return res
 }
+
+func Map[T, C any](input []T, f func(T) C) []C {
+	res := make([]C, 0)
+	for _, v := range input {
+		res = append(res, f(v))
+	}
+	return res
+}
