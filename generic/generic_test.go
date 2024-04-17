@@ -23,6 +23,41 @@ func TestFilter(t *testing.T) {
 	assert.Contains(t, s2, "F")
 }
 
+func TestChaining(t *testing.T) {
+	input1 := []string{"A", "B", "C", "D", "E", "F"}
+
+	output := Map(
+		Filter(input1, func(f string) bool {
+			if f == "C" || f == "D" {
+				return false
+			}
+			return true
+		}),
+		func(f string) int {
+			switch f {
+			case "A":
+				return 1
+			case "B":
+				return 2
+			case "C":
+				return 3
+			case "D":
+				return 4
+			case "E":
+				return 5
+			case "F":
+				return 6
+			default:
+				return 0
+			}
+		})
+	assert.Equal(t, 4, len(output))
+	assert.Contains(t, output, 1)
+	assert.Contains(t, output, 2)
+	assert.Contains(t, output, 5)
+	assert.Contains(t, output, 6)
+}
+
 func TestMap(t *testing.T) {
 	type birne struct {
 		farbe   string
