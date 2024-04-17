@@ -1,6 +1,7 @@
 package generic
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -85,4 +86,28 @@ func TestMap(t *testing.T) {
 	assert.Equal(t, 2, len(g))
 	assert.Contains(t, g, gluehbirne{leistung: 100, dimmbar: true})
 	assert.Contains(t, g, gluehbirne{leistung: 40, dimmbar: false})
+}
+
+func TestReduce_Sum(t *testing.T) {
+	elements := []int{1, 2, 3, 4, 5}
+
+	res := Reduce(elements, func(zahl, sum int) int {
+		return zahl + sum
+	})
+
+	assert.Equal(t, 15, res)
+}
+
+func TestReduce_Concat(t *testing.T) {
+	elements := []string{"Go", "ist", "cool"}
+
+	res := Reduce(elements, func(toAppend, str string) string {
+		trenner := " "
+		if str == "" {
+			trenner = ""
+		}
+		return fmt.Sprint(str, trenner, toAppend)
+	})
+
+	assert.Equal(t, "Go ist cool", res)
 }
