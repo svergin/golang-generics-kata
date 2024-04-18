@@ -111,3 +111,17 @@ func TestReduce_Concat(t *testing.T) {
 
 	assert.Equal(t, "Go ist cool", res)
 }
+
+func TestForEach(t *testing.T) {
+	elements := []int{1, 2, 3, 4, 5}
+
+	ForEach(elements, func(e int) int {
+		return e + 1
+	})
+	assert.Equal(t, 5, len(elements))
+	assert.Contains(t, elements, 2)
+	assert.Contains(t, elements, 3)
+	assert.Contains(t, elements, 4)
+	assert.Contains(t, elements, 5)
+	assert.Contains(t, elements, 6)
+}

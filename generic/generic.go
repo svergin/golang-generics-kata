@@ -2,10 +2,32 @@ package generic
 
 import "golang.org/x/exp/constraints"
 
-func Filter[T constraints.Ordered](elements []T, f func(T) bool, otherOps ...func(T) any) []T {
+func ForEach[T any](elements []T, f func(T) T) {
+	for i, e := range elements {
+		elements[i] = f(e)
+	}
+}
+
+func Collect[T any](element T) (res []T) {
+	// TODO Implement me!
+	c := make(chan T)
+	//res := make([]T,0)
+	c <- element
+	go func() {
+		for v := range c {
+			res = append(res, v)
+		}
+		close(c)
+	}()
+	return res
+}
+
+// returns a new datatype that contains only those elements matching a given predicate function
+// Works!
+func Filter[T constraints.Ordered](elements []T, matches func(T) bool, otherOps ...func(T) any) []T {
 	res := make([]T, 0)
 	for _, v := range elements {
-		if f(v) {
+		if matches(v) {
 			res = append(res, v)
 		}
 	}
